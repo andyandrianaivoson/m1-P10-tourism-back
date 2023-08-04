@@ -1,0 +1,29 @@
+{
+  "name": "m1-p10-tourism-back",
+  "version": "1.0.0",
+  "description": "tourism",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andyandrianaivoson/m1-P10-tourism-back.git"
+  },
+  "author": "andyrazafy,fiaritia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andyandrianaivoson/m1-P10-tourism-back/issues"
+  },
+  "homepage": "https://github.com/andyandrianaivoson/m1-P10-tourism-back#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "formidable": "^3.5.0",
+    "jsonwebtoken": "^9.0.1"
+  }
+}
