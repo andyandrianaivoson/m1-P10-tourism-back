@@ -5,9 +5,9 @@ import { createAndResizeImage } from "../utils/img.js";
 import mongoose from "mongoose";
 
 const getToken = (user) => {
-    const { _id: id, username, email, nom, prenom, role } = user;
+    const { _id: id} = user;
     return generateToken({
-        id, username, email, nom, prenom, role
+        id
     });
 };
 
