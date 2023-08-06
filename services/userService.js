@@ -43,8 +43,12 @@ const register = async (user, imgObj) => {
         if (defaultUser && defaultUser.length > 0) {
             throw new Error('username or email already exists');
         }
-        const imageUrl = await createAndResizeImage(imgObj.imageName, imgObj.base64payload);
-        user.photo = imageUrl;
+        try{
+            const imageUrl = await createAndResizeImage(imgObj.imageName, imgObj.base64payload);
+            user.photo = imageUrl;
+        }catch(err){
+            console.log('an error occured will processing your image');
+        }
         const newUser = new User({
             ...user
         });

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { PublicationModel as Pub } from "../models/publication.js";
 import { createAndResizeImage } from "../utils/img.js";
 import keys from "../configs/keys.js";
+import { updateFavoris } from "./userService.js";
 
 const { itemsPerPage } = keys.dbQuery;
 
@@ -63,6 +64,13 @@ const addNote = async (note, pubId) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
+        const exist = await Pub.findOne({
+            _id : pubId,
+            notes :{$elemMatch: {username : note.username}}
+        });
+        if(exist){
+            throw new Error('You have already noted this publication');
+        }
         const newPub = await Pub.findByIdAndUpdate(
             pubId,
             {
@@ -72,6 +80,7 @@ const addNote = async (note, pubId) => {
             },
             { new: true, session } // Return the updated document
         );
+        const user = await updateFavoris(newPub,session);
         await session.commitTransaction();
         return newPub;
     } catch (error) {

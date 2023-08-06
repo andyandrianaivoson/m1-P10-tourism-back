@@ -39,7 +39,7 @@ const PublicationSchema = mongoose.Schema({
         }]
     },
     notes :[{
-        username :{ type : String, required : true,unique :true},
+        username :{ type : String, required : true},
         note:{ type : Number, required : true,min :0,max :5}    
     }],
     nbNotes :{ type : Number, default:0},
