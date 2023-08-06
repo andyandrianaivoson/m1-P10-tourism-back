@@ -8,7 +8,7 @@ import setupPassport from "./utils/passport.js";
 
 const staticDir = keys.paths.static;
 console.log(staticDir);
-const { port, apiUrl } = keys.app;
+const { apiUrl } = keys.app;
 
 dotenv.config();
 
@@ -24,8 +24,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '20mb' }));
 app.use(cors());
 
-//init connection to db
-setupDB();
 //init the strategies for passport
 setupPassport();
 
@@ -33,6 +31,5 @@ app.use(api, routes),
 app.use(express.static(staticDir));
 app.use(api, (req, res) => res.status(404).json('No API route found'));
 
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
-});
+//init connection to db
+setupDB(app);
