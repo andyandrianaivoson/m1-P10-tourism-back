@@ -11,7 +11,7 @@ const add = async(categorie)=>{
     session.startTransaction();
     try {
         const categ = new Category(categorie);
-        const newCateg = await categ.save(session);
+        const newCateg = await categ.save({session});
         await session.commitTransaction();
         return newCateg;
     } catch (error) {

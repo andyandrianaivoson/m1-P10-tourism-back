@@ -5,9 +5,9 @@ import { createAndResizeImage } from "../utils/img.js";
 import mongoose from "mongoose";
 
 const getToken = (user) => {
-    const { _id: id} = user;
+    const { _id: id, username, email, nom, prenom, role } = user;
     return generateToken({
-        id
+        id, username, email, nom, prenom, role
     });
 };
 
@@ -52,8 +52,8 @@ const register = async (user, imgObj) => {
         const hash = await bcrypt.hash(newUser.pwd, salt);
 
         newUser.pwd = hash;
-        const registeredUser = await newUser.save({session});
-        const token =getToken(registeredUser);
+        const registeredUser = await newUser.save({ session });
+        const token = getToken(registeredUser);
         await session.commitTransaction();
         return token;
     } catch (error) {
@@ -64,5 +64,62 @@ const register = async (user, imgObj) => {
     }
 };
 
-export { login, register };
+const addCommment = async (comment, session) => {
+    let isSet = false;
+    try {
+        if (!session) {
+            session = await mongoose.startSession();
+            session.startTransaction();
+            isSet = true;
+        }
+        const newUser = await User.findOneAndUpdate(
+            {username : comment.username},
+            {
+                $push: { comments: comment }
+            },
+            { new :true ,session }
+        );
+        if (isSet) await session.commitTransaction();
+        return newUser;
+    } catch (error) {
+        if (isSet) await session.abortTransaction();
+        throw error;
+    } finally {
+        if (isSet) session.endSession();
+    }
+}
+
+const updateFavoris = async (publication,session)=>{
+    let isSet = false;
+    try {
+        if (!session) {
+            session = await mongoose.startSession();
+            session.startTransaction();
+            isSet = true;
+        }
+        
+        await User.updateMany(
+            {
+                favoris : { $elemMatch : {_id : publication._id} }
+            },
+            {
+                $set: { 'favoris.$[pub]' : publication }
+            },
+            { 
+                new: true, 
+                session,
+                arrayFilters :[{'pub._id':publication._id}]
+            }
+        );
+
+        if (isSet) await session.commitTransaction();
+    } catch (error) {
+        if (isSet) await session.abortTransaction();
+        throw error;
+    } finally {
+        if (isSet) session.endSession();
+    }
+};
+
+export { login, register, addCommment,updateFavoris };
 

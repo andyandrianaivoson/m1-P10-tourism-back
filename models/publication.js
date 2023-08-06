@@ -3,6 +3,7 @@ import {CategorieSchema} from "./categorie.js";
 
 const CommentsSchema = mongoose.Schema({
     username :{type: String, required : true},
+    publicationId:{type: String, required : true},
     comment :{type : String , trim : true,default : ':)'},
     commentDate : {type : Date , default : Date.now},
     likes :{ type :[String], default : []},
@@ -38,8 +39,8 @@ const PublicationSchema = mongoose.Schema({
         }]
     },
     notes :[{
-        username :{ type : String, required : true},
-        note:{ type : Number, required : true}    
+        username :{ type : String, required : true,unique :true},
+        note:{ type : Number, required : true,min :0,max :5}    
     }],
     nbNotes :{ type : Number, default:0},
     score :{ type : Number, default:0},

@@ -23,6 +23,9 @@ const keys = {
         baseUrl: '/uploads/',
         dir: __dirname + 'static' + sep + 'uploads' + sep,
         targetWidth: 800
+    },
+    dbQuery: {
+        itemsPerPage : 10
     }
 };
 
