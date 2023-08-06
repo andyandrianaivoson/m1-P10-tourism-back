@@ -8,7 +8,7 @@ const keys = {
         apiUrl :'api'
     },
     database: {
-        url: process.env.MONGO_URI || "mongodb+srv://admin:test@cluster0.7bgfxkm.mongodb.net/test?retryWrites=true&w=majority",
+        url: process.env.MONGO_URI || "mongodb+srv://admin:test@cluster0.7bgfxkm.mongodb.net/Tourism?retryWrites=true&w=majority",
     },
     jwt: {
         secret: process.env.JWT_SECRET || 'secret',

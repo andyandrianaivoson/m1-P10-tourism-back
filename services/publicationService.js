@@ -110,7 +110,7 @@ const addCommment = async (comment, session) => {
     }
 };
 
-const addLike = async (comment, session) => {
+const addLike = async (comment,modif, session) => {
     let isSet = false;
     try {
         if (!session) {
@@ -121,10 +121,7 @@ const addLike = async (comment, session) => {
 
         const newPub = await Pub.findOneAndUpdate(
             { _id: comment.publicationId },
-            {
-                $push: { 'comments.$[elem].likes': comment.username },
-                $inc: { 'comments.$[elem].nbLikes': 1 },
-            },
+            {...modif},
             {
                 new: true,
                 session,
